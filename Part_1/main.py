@@ -6,7 +6,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src.routes import contacts, auth, users
 from src.conf.config import settings
-import uvicorn
 
 app = FastAPI()
 
@@ -39,6 +38,4 @@ def read_root():
     return {"msg": "Hello World"}
 
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
     
