@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% load extract_tags %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Quotes</title>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"/>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'quotes/extra.css' %}"/>
+    <link rel="stylesheet" href="{% static 'quotes/style.css' %}"/>
+</head>
+<body>
+<main class="container">
+<nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px" class="col-md-12">
+    {% if user.is_authenticated %}
+<!--    <div class="col-md-8">-->
+    <ul class="col-md-8">
+        <li><a href="{% url 'quotes:add_quote' %}" role="button">Add Quote</a></li>
+        <li><a href="{% url 'quotes:add_author' %}" role="button">Add Author</a></li>
+        <li><a href="{% url 'quotes:tag' %}" role="button">Add Tag</a></li>
+    </ul>
+<!--    </div>-->
+<!--    <div class="col-md-4">-->
+    <ul class="col-md-4">
+        <li>Welcome <b>{{ user.username }}!</b></li>
+        <li><a href="{% url 'users:logout' %}" role="button">Logout</a></li>
+    </ul>
+<!--    </div>-->
+    {% else %}
+    <ul class="col-md-8">
+        <li><a href="{% url 'users:signup' %}" role="button">Sign Up</a></li>
+        <li><a href="{% url 'users:login' %}" role="button">Login</a></li>
+    </ul>
+    {% endif %}
+</nav>
+
+<h1><a href="/" style="text-decoration: none">Quotes</a></h1>
+{% for quote in quotes %}
+<div class="quote">
+    <span class="text"> {{ quote.quote_text }} </span>
+    <span>
+        by
+        <small class="author"> {{ quote.author }} </small>
+        <a href="author/{{ quote.author.id}}">(about)</a>
+    </span>
+    <div class="tags">
+        Tags:
+        {% for tag in quote.tags|tags %}
+        <a class="tag"> {{tag}} </a>
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}
+</main>
+</body>
+</html>
